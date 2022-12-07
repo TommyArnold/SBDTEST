@@ -20,7 +20,8 @@ class UserSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@djvaleting.fake',
             'email_verified_at' => date('Y-m-d H:i:s'),
-            'password' => Hash::make('WorldTableFrogWindow')
+            'password' => Hash::make('WorldTableFrogWindow'),
+            'role' => 'admin'
         ]);
     }
 }
