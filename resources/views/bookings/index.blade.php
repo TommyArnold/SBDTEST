@@ -32,7 +32,7 @@
                                 <td>{{$booking->user()->first()->contact_number}}</td>
                                 <td>{{$booking->user()->first()->email}}</td>
                                 <td>
-                                    <a href="" class="btn btn-sm btn-default"><i class="fa fa-check"></i></a>
+                                    <a href="/bookings/{{$booking->id}}/edit" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i> Edit</a>
                                 </td>
                             </tr>
                             @endforeach

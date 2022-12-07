@@ -40,8 +40,8 @@ class BookingController extends Controller
     {
         $flexibility_options = FlexibilityOption::orderBy('id','ASC')->get();
         $vehicle_size_options = VehicleSizeOption::orderBy('id','ASC')->get();
-
-        return view('bookings.create-edit', compact('flexibility_options','vehicle_size_options'));
+        $booking = new Booking();
+        return view('bookings.create-edit', compact('booking','flexibility_options','vehicle_size_options'));
     }
 
     /**
@@ -104,7 +104,9 @@ class BookingController extends Controller
      */
     public function edit(Booking $booking)
     {
-        //
+        $flexibility_options = FlexibilityOption::orderBy('id','ASC')->get();
+        $vehicle_size_options = VehicleSizeOption::orderBy('id','ASC')->get();
+        return view('bookings.create-edit', compact('booking','flexibility_options','vehicle_size_options'));
     }
 
     /**
@@ -116,7 +118,31 @@ class BookingController extends Controller
      */
     public function update(Request $request, Booking $booking)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'booking_date' => 'required|date_format:Y-m-d',
+            'flexibility_option_id' => 'required',
+            'vehicle_size_option_id' => 'required',
+            'contact_number' => 'required',
+            'email' => 'required|email'
+        ]);
+        $user = User::find($booking->user_id);
+
+        $user->update(
+            [
+                'email' => $request->input('email'),
+                'name' => $request->input('name'),
+                'contact_number' => $request->input('contact_number')
+            ]
+        );
+
+        $booking->update([
+            'booking_date' => $request->input('booking_date'),
+            'flexibility_option_id' => $request->input('flexibility_option_id'),
+            'vehicle_size_option_id' => $request->input('vehicle_size_option_id'),
+        ]);
+
+        return redirect('/bookings');
     }
 
     /**
